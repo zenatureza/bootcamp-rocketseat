@@ -6,6 +6,9 @@
   "devDependencies": {
     "nodemon": "^1.19.1"
   },
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
   "dependencies": {
     "express": "^4.17.1"
   }
