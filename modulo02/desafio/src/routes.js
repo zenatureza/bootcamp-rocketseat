@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
-import SessionController from './app/controllers/SessionController';
 import validationMiddleware from './app/middlewares/validation';
-import UserController from '../../src/app/controllers/UserController';
+import authMiddleware from './app/middlewares/auth';
+
+import SessionController from './app/controllers/SessionController';
+import UserController from './app/controllers/UserController';
 
 const routes = new Router();
-
-console.log(validationMiddleware);
 
 routes.post(
   '/sessions',
@@ -19,5 +19,9 @@ routes.post(
   validationMiddleware.validateUserLogin,
   UserController.store
 );
+
+// only logged users
+routes.use(authMiddleware);
+routes.put('/users', UserController.update);
 
 export default routes;

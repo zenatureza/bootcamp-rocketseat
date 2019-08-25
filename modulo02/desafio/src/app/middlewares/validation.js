@@ -1,16 +1,20 @@
 import * as Yup from 'yup';
 
-const errors = {
-  email: '$ invalid email!',
-  password: '$ invalid password!',
-  requiredName: '$ name is required!',
-};
-
 class Validation {
   constructor() {
     this.validateUserLogin = this.validateUserLogin.bind(this);
     this.validateUserSession = this.validateUserSession.bind(this);
     this.validateItem = this.validateItem.bind(this);
+  }
+
+  async validateItem(schema, item, itemName, res) {
+    try {
+      await Yup.reach(schema, itemName).validate(item);
+    } catch (err) {
+      return res.status(400).json({ error: `$ ${itemName}: ${err.message}` });
+    }
+
+    return true;
   }
 
   async validateUserSession(req, res, next) {
@@ -23,17 +27,8 @@ class Validation {
 
     const { email, password } = req.body;
 
-    try {
-      await Yup.reach(schema, 'email').validate(email);
-    } catch (err) {
-      return res.status(400).json({ error: errors.email });
-    }
-
-    try {
-      await Yup.reach(schema, 'password').validate(password);
-    } catch (err) {
-      return res.status(400).json({ error: errors.password });
-    }
+    await this.validateItem(schema, email, 'email', res);
+    await this.validateItem(schema, password, 'password', res);
 
     req.email = email;
     req.password = password;
@@ -60,17 +55,47 @@ class Validation {
     await this.validateItem(schema, email, 'email', res);
     await this.validateItem(schema, password, 'password', res);
 
-    return res.json('teste');
+    req.name = name;
+    req.email = email;
+    req.password = password;
+
+    try {
+      return next();
+    } catch (err) {
+      return res.json('$ problem calling next function!');
+    }
   }
 
-  async validateItem(schema, item, itemName, res) {
-    try {
-      await Yup.reach(schema, itemName).validate(item);
-    } catch (err) {
-      return res.status(400).json({ error: `$ ${itemName}: ${err.message}` });
-    }
+  async validateUserUpdate(req, res, next) {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      email: Yup.string().email(),
+      oldPassword: Yup.string().min(6),
+      password: Yup.string()
+        .min(6)
+        .when('oldPassword', (oldPassword, field) =>
+          oldPassword ? field.required() : field
+        ),
+      confirmPassword: Yup.string().when('password', (password, field) =>
+        password ? field.required().oneOf([Yup.ref('password')]) : field
+      ),
+    });
 
-    return true;
+    const { name, email, oldPassword, password, confirmPassword } = req.body;
+
+    await this.validateItem(schema, name, 'name', res);
+    await this.validateItem(schema, email, 'email', res);
+    await this.validateItem(schema, oldPassword, 'oldPassword', res);
+    await this.validateItem(schema, password, 'password', res);
+    await this.validateItem(schema, confirmPassword, 'confirmPassword', res);
+
+    req.name = name;
+    req.email = email;
+    req.oldPassword = oldPassword;
+    req.password = password;
+    req.confirmPassword = confirmPassword;
+
+    return next();
   }
 }
 
