@@ -1,4 +1,8 @@
 {
+  "name": "desafio",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
@@ -23,7 +27,7 @@
     "devsucrase": "yarn sucrase-node src/server.js",
     "dev": "nodemon src/server.js",
     "eslint-fixall": "yarn eslint --fix $1 --ext .js",
-    "create-migration": "yarn sequelize migration:create --name=$1",
+    "create-migration": "yarn sequelize migration:create --name=",
     "run-migration": "yarn sequelize db:migrate",
     "debug": "node --inspect -r sucrase/register src/server.js"
   }
