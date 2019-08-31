@@ -52,6 +52,12 @@ routes.post(
   validationMiddleware.validateMeetup,
   MeetupController.store
 );
+routes.put(
+  '/meetups/:id',
+  validationMiddleware.validateMeetup,
+  MeetupController.update
+);
+routes.delete('/meetups/:id', MeetupController.delete);
 
 // routes.get('/schedules', ScheduleController.index);
 

@@ -51,6 +51,45 @@ class MeetupController {
 
     return res.json(meetup);
   }
+
+  async update(req, res) {
+    const meetup_id = req.params.id;
+
+    const meetup = await Meetup.findByPk(meetup_id);
+    if (!meetup) {
+      return res.status(400).json({ error: '$ meetup doest not exists!' });
+    }
+
+    const user_id = req.userId;
+    if (meetup.user_id !== user_id) {
+      return res
+        .status(400)
+        .json({ error: '$ user is not the meetup organizer!' });
+    }
+
+    const { title, description, address, date } = await meetup.update(req.body);
+
+    return res.json({ title, description, address, date });
+  }
+
+  async delete(req, res) {
+    const meetup = await Meetup.findByPk(req.params.id);
+
+    if (meetup.user_id !== req.userId) {
+      return res
+        .status(400)
+        .json({ error: '$ you dont have permission to cancel this meetup!' });
+    }
+
+    // checks if the meetup didnt happened yet
+    const hourStart = startOfHour(parseISO(meetup.date));
+    if (isBefore(hourStart, new Date())) {
+      return res.status(400).json({ error: '$ this meetup already happened!' });
+    }
+
+    meetup.destroy();
+    return res.json({ msg: '> meetup was deleted from the database!' });
+  }
 }
 
 export default new MeetupController();
