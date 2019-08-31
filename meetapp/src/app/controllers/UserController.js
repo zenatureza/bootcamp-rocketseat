@@ -1,6 +1,7 @@
 import User from '../models/User';
 
 class UserController {
+  // GET: /users
   async store(req, res) {
     const userExists = await User.findOne({ where: { email: req.email } });
     if (userExists) {
@@ -11,6 +12,7 @@ class UserController {
     return res.json(user);
   }
 
+  // PUT: /users (logged user)
   async update(req, res) {
     const { email, oldPassword } = req;
 

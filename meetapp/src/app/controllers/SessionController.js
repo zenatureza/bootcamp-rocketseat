@@ -4,6 +4,7 @@ import User from '../models/User';
 import authConfig from '../../config/auth';
 
 class SessionController {
+  // POST: /sessions
   async store(req, res) {
     const { email, password } = req;
     const user = await User.findOne({ where: { email } });
