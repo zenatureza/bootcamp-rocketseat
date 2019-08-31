@@ -32,7 +32,7 @@ class MeetupController {
   }
 
   async store(req, res) {
-    const { userId, title, description, address, date } = req;
+    const { userId, title, description, address, date, banner_id } = req;
 
     const hourStart = startOfHour(parseISO(date));
     if (isBefore(hourStart, new Date())) {
@@ -47,6 +47,7 @@ class MeetupController {
       description,
       address,
       date,
+      banner_id,
     });
 
     return res.json(meetup);

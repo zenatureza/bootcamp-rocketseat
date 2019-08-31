@@ -7,16 +7,6 @@ class Validation {
     autoBind(this);
   }
 
-  async validateItem(schema, item, itemName, res) {
-    try {
-      await Yup.reach(schema, itemName).validate(item);
-    } catch (err) {
-      return res.status(400).json({ error: `$ ${itemName}: ${err.message}` });
-    }
-
-    return true;
-  }
-
   async validateUserSession(req, res, next) {
     const schema = Yup.object().shape({
       email: Yup.string()
@@ -31,7 +21,17 @@ class Validation {
       { key: this.variableToString({ password }), value: password },
     ];
 
-    items.forEach(item => this.validateItem(schema, item.value, item.key, res));
+    const promises = items.map(async item =>
+      Yup.reach(schema, item.key)
+        .validate(item.value)
+        .catch(err => {
+          throw res.status(400).json({
+            error: `$ ${item.key} - ${err.message}`,
+          });
+        })
+    );
+
+    await Promise.all(promises);
 
     req.email = email;
     req.password = password;
@@ -59,7 +59,17 @@ class Validation {
       { key: this.variableToString({ password }), value: password },
     ];
 
-    items.forEach(item => this.validateItem(schema, item.value, item.key, res));
+    const promises = items.map(async item =>
+      Yup.reach(schema, item.key)
+        .validate(item.value)
+        .catch(err => {
+          throw res.status(400).json({
+            error: `$ ${item.key} - ${err.message}`,
+          });
+        })
+    );
+
+    await Promise.all(promises);
 
     req.name = name;
     req.email = email;
@@ -99,7 +109,17 @@ class Validation {
       { key: this.variableToString({ password }), value: password },
     ];
 
-    items.forEach(item => this.validateItem(schema, item.value, item.key, res));
+    const promises = items.map(async item =>
+      Yup.reach(schema, item.key)
+        .validate(item.value)
+        .catch(err => {
+          throw res.status(400).json({
+            error: `$ ${item.key} - ${err.message}`,
+          });
+        })
+    );
+
+    await Promise.all(promises);
 
     req.name = name;
     req.email = email;
@@ -122,22 +142,38 @@ class Validation {
         .min(10)
         .required(),
       date: Yup.date().required(),
+      banner_id: Yup.number()
+        .integer()
+        .required(),
     });
 
-    const { title, description, address, date } = req.body;
+    const { title, description, address, date, banner_id } = req.body;
+
     const items = [
-      { key: 'title', value: title },
-      { key: 'description', value: description },
-      { key: 'address', value: address },
-      { key: 'date', value: date },
+      { key: this.variableToString({ title }), value: title },
+      { key: this.variableToString({ description }), value: description },
+      { key: this.variableToString({ address }), value: address },
+      { key: this.variableToString({ date }), value: date },
+      { key: this.variableToString({ banner_id }), value: banner_id },
     ];
 
-    items.forEach(item => this.validateItem(schema, item.value, item.key, res));
+    const promises = items.map(async item =>
+      Yup.reach(schema, item.key)
+        .validate(item.value)
+        .catch(err => {
+          throw res.status(400).json({
+            error: `$ ${item.key} - ${err.message}`,
+          });
+        })
+    );
+
+    await Promise.all(promises);
 
     req.title = title;
     req.description = description;
     req.address = address;
     req.date = date;
+    req.banner_id = banner_id;
 
     return next();
   }
