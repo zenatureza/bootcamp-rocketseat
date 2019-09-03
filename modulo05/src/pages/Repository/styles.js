@@ -121,7 +121,7 @@ export const PageSelector = styled.div`
   button {
     width: calc(100% / 4);
 
-    &.nextPage {
+    &.previousPage {
       float: left !important;
     }
     &.nextPage {
