@@ -3,11 +3,12 @@ import { createAppContainer } from 'react-navigation';
 
 import Main from './pages/Main';
 import User from './pages/User';
+import Repository from './pages/Repository';
 
 // Routes is a component
 const Routes = createAppContainer(
   createStackNavigator(
-    { Main, User },
+    { Main, User, Repository },
     {
       headerLayoutPreset: 'center',
       // only displays return arrow (without 'voltar')

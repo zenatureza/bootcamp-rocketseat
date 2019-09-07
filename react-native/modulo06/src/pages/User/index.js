@@ -28,6 +28,7 @@ export default class User extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       getParam: PropTypes.func,
+      navigate: PropTypes.func,
     }).isRequired,
   };
 
@@ -35,11 +36,14 @@ export default class User extends Component {
     stars: [],
     loading: false,
     page: 1,
+    refreshing: false,
   };
 
   async componentDidMount() {
     this.setState({ loading: true });
-    this.loadStarred(1);
+    // starts on page 1
+    const { page } = this.state;
+    this.loadStarred(page);
   }
 
   loadStarred = async page => {
@@ -52,6 +56,7 @@ export default class User extends Component {
     this.setState({
       stars: [...stars, ...response.data],
       loading: false,
+      refreshing: false,
     });
   };
 
@@ -62,9 +67,19 @@ export default class User extends Component {
     this.loadStarred(nextPage);
   };
 
+  refreshList = () => {
+    console.tron.log('$ refreshing list...');
+    this.setState({ refreshing: true, stars: [] }, this.loadStarred);
+  };
+
+  handleNavigate = repository => {
+    const { navigation } = this.props;
+    navigation.navigate('Repository', { repository });
+  };
+
   render() {
     const { navigation } = this.props;
-    const { stars, loading } = this.state;
+    const { stars, loading, refreshing } = this.state;
     const user = navigation.getParam('user');
 
     return (
@@ -81,12 +96,14 @@ export default class User extends Component {
           </View>
         ) : (
           <Stars
+            onRefresh={this.refreshList}
+            refreshing={refreshing}
             onEndReachedThreshold={0.2}
             onEndReached={this.loadMore}
             data={stars}
             keyExtractor={star => String(star.id)}
             renderItem={({ item }) => (
-              <Starred>
+              <Starred onPress={() => this.handleNavigate(item)}>
                 <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
 
                 <Info>

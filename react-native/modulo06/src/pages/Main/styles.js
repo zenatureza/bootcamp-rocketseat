@@ -56,7 +56,7 @@ export const Avatar = styled.Image`
 
 export const Name = styled.Text`
   font-size: 14px;
-  color: #eee;
+  color: #999;
   font-weight: bold;
   margin-top: 4px;
   text-align: center;
