@@ -5,7 +5,7 @@ import produce from 'immer';
 export default function cart(state = [], action) {
   // reducer state is also immutable!
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case '@cart/ADD':
       /* ########## OLD WAY TO CHANGE AN IMMUTABLE STATE
         returns current state of products + added product
         return [
@@ -33,7 +33,8 @@ export default function cart(state = [], action) {
           });
         }
       });
-    case 'REMOVE_FROM_CART':
+
+    case '@cart/REMOVE':
       return produce(state, stateDraft => {
         const draft = stateDraft;
         const productIndex = draft.findIndex(p => p.id === action.product.id);
@@ -42,6 +43,22 @@ export default function cart(state = [], action) {
           draft.splice(productIndex, 1);
         }
       });
+
+    case '@cart/UPDATE_AMOUNT': {
+      if (action.amount <= 0) {
+        return state;
+      }
+
+      return produce(state, stateDraft => {
+        const draft = stateDraft;
+
+        const productIndex = draft.findIndex(p => p.id === action.id);
+        if (productIndex >= 0) {
+          draft[productIndex].amount = Number(action.amount);
+        }
+      });
+    }
+
     default:
       return state;
   }

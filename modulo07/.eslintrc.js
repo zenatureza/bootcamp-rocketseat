@@ -33,6 +33,7 @@ module.exports = {
     'react/state-in-constructor': 0,
     'react/static-property-placement': 0,
     'no-console': ['error', { allow: ['tron'] }],
-    'jsx-a11y/control-has-associated-label': 0
+    'jsx-a11y/control-has-associated-label': 0,
+    'no-param-reassign': 0,
   },
 };
