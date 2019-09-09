@@ -45,7 +45,7 @@ export const ProductAddButton = styled(RectButton)`
 
 export const ProductAmountBox = styled.View`
   flex-direction: row;
-  /* align-items: center; */
+  align-items: center;
   background: ${darken(0.03, '#7159c1')};
   padding: 12px;
 `;
