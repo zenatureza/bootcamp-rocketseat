@@ -5,33 +5,11 @@ import produce from 'immer';
 export default function cart(state = [], action) {
   // reducer state is also immutable!
   switch (action.type) {
-    case '@cart/ADD':
-      /* ########## OLD WAY TO CHANGE AN IMMUTABLE STATE
-        returns current state of products + added product
-        return [
-          ...state,
-          {
-            ...action.product,
-            amount: 1,
-          },
-        ];
-      */
+    case '@cart/ADD_SUCCESS':
       return produce(state, stateDraft => {
-        // apply modifications into state through a draft
-        const draft = stateDraft;
+        const { product } = action;
 
-        // checks if the product's already on the list
-        const productIndex = draft.findIndex(p => p.id === action.product.id);
-        if (productIndex >= 0) {
-          // if so, then increases the amount of it
-          draft[productIndex].amount += 1;
-        } else {
-          // else, places a new product into the list
-          draft.push({
-            ...action.product,
-            amount: 1,
-          });
-        }
+        stateDraft.push(product);
       });
 
     case '@cart/REMOVE':
@@ -44,7 +22,7 @@ export default function cart(state = [], action) {
         }
       });
 
-    case '@cart/UPDATE_AMOUNT': {
+    case '@cart/UPDATE_AMOUNT_SUCCESS': {
       if (action.amount <= 0) {
         return state;
       }
