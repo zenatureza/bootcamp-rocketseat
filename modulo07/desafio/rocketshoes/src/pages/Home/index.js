@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
   Container,
@@ -6,6 +7,11 @@ import {
   ProductImage,
   ProductBox,
   ProductTitle,
+  ProductPrice,
+  ProductAddButton,
+  ProductAmountBox,
+  ProductAddText,
+  ProductAmountText,
 } from './styles';
 
 export default class Home extends Component {
@@ -41,7 +47,14 @@ export default class Home extends Component {
             <ProductBox key={item.id}>
               <ProductImage source={{ uri: item.image }} />
               <ProductTitle>{item.title}</ProductTitle>
-              <ProductPrice />
+              <ProductPrice>{item.price}</ProductPrice>
+              <ProductAddButton>
+                <ProductAmountBox>
+                  <Icon name="add-shopping-cart" size={20} color="#fff" />
+                  <ProductAmountText>12</ProductAmountText>
+                </ProductAmountBox>
+                <ProductAddText>ADICIONAR</ProductAddText>
+              </ProductAddButton>
             </ProductBox>
           )}
         />

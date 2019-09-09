@@ -5,9 +5,11 @@
   "scripts": {
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "run-server": "json-server server.json -p 3333 -w"
   },
   "dependencies": {
+    "polished": "^3.4.1",
     "prop-types": "^15.7.2",
     "react": "16.8.6",
     "react-native": "0.60.5",
