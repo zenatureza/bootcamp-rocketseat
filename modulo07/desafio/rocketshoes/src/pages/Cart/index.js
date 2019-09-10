@@ -1,7 +1,18 @@
 import React from 'react';
 
-import { Container } from './styles';
+import {
+  CartBox,
+  ProductsContainer,
+  ProductInfo,
+  ProductImage,
+  ProductTitle,
+  ProductPrice,
+  ProductAmount,
+  ProductFinalPrice,
+  Total,
+  Done,
+} from './styles';
 
 export default function Cart() {
-  return <Container />;
+  return <ProductsContainer />;
 }

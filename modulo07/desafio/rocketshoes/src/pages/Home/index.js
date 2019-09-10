@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { formatPrice } from '../../util/format';
+import api from '../../services/api';
+
 import {
   Container,
   ProductsList,
@@ -34,6 +37,17 @@ export default class Home extends Component {
     ],
   };
 
+  async componentDidMount() {
+    const response = await api.get('products');
+
+    const data = response.data.map(product => ({
+      ...product,
+      formattedPrice: formatPrice(product.price),
+    }));
+
+    this.setState({ products: data });
+  }
+
   render() {
     const { products } = this.state;
 
@@ -47,7 +61,7 @@ export default class Home extends Component {
             <ProductBox key={item.id}>
               <ProductImage source={{ uri: item.image }} />
               <ProductTitle>{item.title}</ProductTitle>
-              <ProductPrice>{item.price}</ProductPrice>
+              <ProductPrice>{item.formattedPrice}</ProductPrice>
               <ProductAddButton>
                 <ProductAmountBox>
                   <Icon name="add-shopping-cart" size={20} color="#fff" />
