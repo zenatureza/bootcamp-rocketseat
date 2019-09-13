@@ -100,3 +100,14 @@ export const DoneText = styled.Text`
   font-size: 16px;
   font-weight: bold;
 `;
+
+export const CartIsEmptyBox = styled.View`
+  align-items: center;
+  justify-content: center;
+`;
+
+export const CartIsEmptyText = styled.Text`
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 18px;
+`;

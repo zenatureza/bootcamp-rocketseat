@@ -30,9 +30,10 @@ export const ProductTitle = styled.Text`
 `;
 
 export const ProductPrice = styled.Text`
-  font-size: 21px;
+  margin: 14px 0px;
+  font-size: 20px;
+  margin-bottom: 14px;
   font-weight: bold;
-  margin-top: 14px;
 `;
 
 export const ProductAddButton = styled(RectButton)`
