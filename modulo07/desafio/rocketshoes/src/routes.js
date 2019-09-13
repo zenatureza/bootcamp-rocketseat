@@ -1,3 +1,4 @@
+import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 
@@ -11,9 +12,9 @@ const Routes = createAppContainer(
     {
       headerLayoutPreset: 'left',
       headerBackTitleVisible: false,
-      defaultNavigationOptions: {
-        header: Header,
-      },
+      defaultNavigationOptions: navigation => ({
+        header: <Header {...navigation} />,
+      }),
       cardStyle: { backgroundColor: '#191920' },
       transitionConfig: () => ({
         transitionSpec: {
