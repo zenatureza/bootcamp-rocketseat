@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { MdShoppingBasket } from 'react-icons/md';
 
@@ -8,8 +9,9 @@ import { Container, Cart } from './styles';
 
 import logo from '../../assets/images/logo.svg';
 
-function Header({ cartSize }) {
-  console.log(cartSize);
+export default function Header() {
+  // getting cartsize through react hooks
+  const cartSize = useSelector(state => state.cart.length);
 
   return (
     <Container>
@@ -28,14 +30,14 @@ function Header({ cartSize }) {
   );
 }
 
-// * 'state =>' is the entire redux state
-// * 'state =>' is returning an object
-export default connect(state => ({
-  // * accessing 'cart' reducer through redux state
-  // * 'cart' is defined inside rootReducer
-  /* after 'ADD_TO_CART' action was dispatched,
-  the state.cart was modified. Redux re-render
-  every component using state.cart with its new state.
-  */
-  cartSize: state.cart.length,
-}))(Header);
+// // * 'state =>' is the entire redux state
+// // * 'state =>' is returning an object
+// export default connect(state => ({
+//   // * accessing 'cart' reducer through redux state
+//   // * 'cart' is defined inside rootReducer
+//   /* after 'ADD_TO_CART' action was dispatched,
+//   the state.cart was modified. Redux re-render
+//   every component using state.cart with its new state.
+//   */
+//   cartSize: state.cart.length,
+// }))(Header);

@@ -12,7 +12,6 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
-  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -31,6 +30,8 @@ module.exports = {
       'warn', { extensions: ['.jsx', '.js'] }
     ],
     'import/prefer-default-export': 'off',
+    'react/state-in-constructor': 0,
+    'react/static-property-placement': 0,
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn'
   },
