@@ -1,17 +1,20 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useSelector } from 'react-redux';
 
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 import { Container, LogoBox, LogoImage, CartBox, CartCounter } from './styles';
 
 import logo from '../../assets/logo.png';
 
 // function Header({ navigation, cartSize = 0 }) {
-function Header(params) {
+export default function Header(params) {
   console.tron.log('> logging navigation');
   console.tron.log(params);
-  const { navigation, cartSize } = params;
+  const { navigation } = params;
+
+  const cartSize = useSelector(state => state.cart.length);
 
   return (
     <Container>
@@ -26,8 +29,8 @@ function Header(params) {
   );
 }
 
-export default connect(state => ({
-  cartSize: state.cart.length,
-}))(Header);
+// export default connect(state => ({
+//   cartSize: state.cart.length,
+// }))(Header);
 
 // export default Header;

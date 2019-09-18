@@ -1,5 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -30,22 +31,35 @@ import {
   CartIsEmptyText,
 } from './styles';
 
-function Cart(params) {
-  const {
-    total,
-    cart,
-    navigation,
-    updateAmountRequest,
-    removeFromCart,
-  } = params;
-  console.tron.log('$ logging params: ');
-  console.tron.log(params);
+export default function Cart(params) {
+  // const {
+  //   total,
+  //   cart,
+  //   navigation,
+  //   updateAmountRequest,
+  //   removeFromCart,
+  // } = params;
+  // console.tron.log('$ logging params: ');
+  // console.tron.log(params);
+  const total = useSelector(state =>
+    formatPrice(state.cart.reduce((sumTotal, product) => {
+      return sumTotal + product.price * product.amount;
+    }, 0)));
+
+  const cart = useSelector(state => state.cart.map(product => ({
+    ...product,
+    subtotal: formatPrice(product.price * product.amount),
+  })));
+
+  const dispatch = useDispatch();
 
   function increment(product) {
-    updateAmountRequest(product.id, product.amount + 1);
+    // updateAmountRequest(product.id, product.amount + 1);
+    dispatch(CartActions.updateAmountRequest(product.id, product.amount + 1));
   }
   function decrement(product) {
-    updateAmountRequest(product.id, product.amount - 1);
+    // updateAmountRequest(product.id, product.amount - 1);
+    dispatch(CartActions.updateAmountRequest(product.id, product.amount - 1));
   }
 
   return (
@@ -61,7 +75,7 @@ function Cart(params) {
                     <ProductTitle>{product.title}</ProductTitle>
                     <ProductPrice>{product.formattedPrice}</ProductPrice>
                   </ProductDetails>
-                  <ProductDelete onPress={() => removeFromCart(product.id)}>
+                  <ProductDelete onPress={() => dispatch(CartActions.removeFromCart(product.id))}>
                     <Icon name="delete-forever" size={25} color="#7159c1" />
                   </ProductDelete>
                 </ProductInfo>
@@ -92,32 +106,32 @@ function Cart(params) {
           </TotalBox>
         </>
       ) : (
-        <CartIsEmptyBox>
-          <Icon name="remove-shopping-cart" size={64} color="#eee" />
-          <CartIsEmptyText>Seu carrinho está vazio!</CartIsEmptyText>
-        </CartIsEmptyBox>
-      )}
+          <CartIsEmptyBox>
+            <Icon name="remove-shopping-cart" size={64} color="#eee" />
+            <CartIsEmptyText>Seu carrinho está vazio!</CartIsEmptyText>
+          </CartIsEmptyBox>
+        )}
     </CartBox>
   );
 }
 
-const mapStateToProps = state => ({
-  cart: state.cart.map(product => ({
-    // creating a field for each product
-    ...product,
-    subtotal: formatPrice(product.price * product.amount),
-  })),
-  total: formatPrice(
-    state.cart.reduce((total, product) => {
-      return total + product.price * product.amount;
-    }, 0)
-  ),
-});
+// const mapStateToProps = state => ({
+//   cart: state.cart.map(product => ({
+//     // creating a field for each product
+//     ...product,
+//     subtotal: formatPrice(product.price * product.amount),
+//   })),
+//   total: formatPrice(
+//     state.cart.reduce((total, product) => {
+//       return total + product.price * product.amount;
+//     }, 0)
+//   ),
+// });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
+// const mapDispatchToProps = dispatch =>
+//   bindActionCreators(CartActions, dispatch);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Cart);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(Cart);
