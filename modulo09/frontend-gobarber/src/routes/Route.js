@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import AuthLayout from '~/pages/_layouts/auth';
 import DefaultLayout from '~/pages/_layouts/default';
 
+import store from '~/store';
+
 export default function RouteWrapper({
   // uppercase component because we need to create an <Component />
   component: Component,
@@ -13,11 +15,12 @@ export default function RouteWrapper({
   // all other variables
   ...rest
 }) {
-  const signed = false;
+  const { signed } = store.getState().auth;
+  console.tron.log('$ Routes.js - signed: ', signed);
 
   // redirects user back to login page
   if (!signed && isPrivate) {
-    return <Redirect path="/" />;
+    return <Redirect to="/" />;
   }
 
   if (signed && !isPrivate) {
@@ -26,7 +29,6 @@ export default function RouteWrapper({
 
   // defines which component should be rendered
   const Layout = signed ? DefaultLayout : AuthLayout;
-  console.tron.log(signed);
 
   /* copy all variables to Route component
   and passes a function with all props from the screen
