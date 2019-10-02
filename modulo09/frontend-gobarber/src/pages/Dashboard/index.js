@@ -3,5 +3,12 @@ import React from 'react';
 // import { Container } from './styles';
 
 export default function Dashboard() {
-  return <h1>Dashboard</h1>;
+  console.tron.log('> Rendering dashboard');
+
+  return (
+    <>
+      <h1>Dashboard</h1>
+      <h2>teste</h2>
+    </>
+  );
 }

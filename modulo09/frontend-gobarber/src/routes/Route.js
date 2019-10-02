@@ -17,6 +17,7 @@ export default function RouteWrapper({
 }) {
   const { signed } = store.getState().auth;
   console.tron.log('$ Routes.js - signed: ', signed);
+  console.tron.log('$ Routes.js - isPrivate: ', isPrivate);
 
   // redirects user back to login page
   if (!signed && isPrivate) {

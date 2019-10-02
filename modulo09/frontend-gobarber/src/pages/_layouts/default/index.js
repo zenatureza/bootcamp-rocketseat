@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 
 import { Wrapper } from './styles';
 
-/* receveing all AuthLayout component childrens (h1 and h2)
-   e.g.:  <AuthLayout>
+/* receveing all DefaultLayout component children (h1 and h2)
+   e.g.:  <DefaultLayout>
             <h2>tchau</h2>
             <h1>oi<h1>
-          </AuthLayout>
+          </DefaultLayout>
 */
 export default function DefaultLayout({ children }) {
+  console.tron.log('> defaultLayout....');
+
   return <Wrapper>{children}</Wrapper>;
 }
 
