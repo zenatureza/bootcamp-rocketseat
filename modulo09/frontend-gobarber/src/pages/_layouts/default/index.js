@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Wrapper } from './styles';
 
+import Header from '~/components/Header';
+
 /* receveing all DefaultLayout component children (h1 and h2)
    e.g.:  <DefaultLayout>
             <h2>tchau</h2>
@@ -12,7 +14,11 @@ import { Wrapper } from './styles';
 export default function DefaultLayout({ children }) {
   console.tron.log('> defaultLayout....');
 
-  return <Wrapper>{children}</Wrapper>;
+  return (
+    <Wrapper>
+      <Header>{children}</Header>
+    </Wrapper>
+  );
 }
 
 DefaultLayout.propTypes = {
