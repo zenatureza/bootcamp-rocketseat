@@ -20,7 +20,7 @@ export const Content = styled.div`
     img {
       margin-right: 20px;
       padding-right: 20px;
-      border-right: 1px solid #eee;
+      /* border-right: 1px solid #eee; */
     }
   }
 
@@ -34,15 +34,17 @@ export const Profile = styled.div`
   display: flex;
   margin-left: 20px;
   padding-left: 20px;
-  border-left: 1px solid #eee;
+  /* border-left: 1px solid #eee; */
 
   div {
     text-align: right;
-    margin-right: 10px;
+    margin-right: 25px;
+    height: 42px;
+    align-content: center;
 
     strong {
       display: block;
-      color: #333;
+      color: #fff;
     }
 
     a {
@@ -56,6 +58,10 @@ export const Profile = styled.div`
   button {
     border: 0;
     color: #fff;
-    background: #f94d6a;
+    background: #d44059;
+    width: 71px;
+    height: 42px;
+    border-radius: 4px;
+    /* margin-left: 25px; */
   }
 `;

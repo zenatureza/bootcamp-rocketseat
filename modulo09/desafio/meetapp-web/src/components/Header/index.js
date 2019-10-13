@@ -21,8 +21,8 @@ export default function Header() {
             <div>
               <strong>{profile.name}</strong>
               <Link to="/profile">Meu perfil</Link>
-              <button type="button">Sair</button>
             </div>
+            <button type="button">Sair</button>
           </Profile>
         </aside>
       </Content>
