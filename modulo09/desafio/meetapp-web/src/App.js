@@ -4,10 +4,10 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 
-// import './config/ReactotronConfig';
+import './config/ReactotronConfig';
 
-// import Routes from './routes';
-// import history from './services/history';
+import Routes from './routes';
+import history from './services/history';
 
 /* only renders router content after reading info from the client database
  this is needed to persist data, like user login, so after f5 it keeps the
@@ -28,7 +28,11 @@ function App() {
     //     </Router>
     //   </PersistGate>
     // </Provider>
-    <h1>oi</h1>
+    <Router history={history}>
+      <Routes />
+      <GlobalStyle />
+      <ToastContainer autoClose={3000} />
+    </Router>
   );
 }
 

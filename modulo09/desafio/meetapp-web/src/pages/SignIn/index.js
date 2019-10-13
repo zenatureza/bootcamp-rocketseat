@@ -14,8 +14,9 @@ const schema = Yup.object().shape({
 });
 
 export default function SignIn() {
-  const dispatch = useDispatch();
-  const loading = useSelector(state => state.auth.loading);
+  // const dispatch = useDispatch();
+  // const loading = useSelector(state => state.auth.loading);
+  const loading = false;
 
   function handleSubmit(data) {
     console.tron.log(data);
