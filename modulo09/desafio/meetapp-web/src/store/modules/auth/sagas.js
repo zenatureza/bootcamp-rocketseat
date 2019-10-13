@@ -23,6 +23,7 @@ export function* signIn({ payload }) {
 
     history.push('/dashboard');
   } catch (err) {
+    console.tron.log('$ erro de autenticação');
     toast.error('Falha na autenticação, verifique seus dados de login!');
     yield put(signInFailure());
   }
