@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   background: #000;
   padding: 0 30px;
+  top: 0;
 `;
 
 export const Content = styled.div`
@@ -16,12 +17,6 @@ export const Content = styled.div`
   nav {
     display: flex;
     align-items: center;
-
-    img {
-      margin-right: 20px;
-      padding-right: 20px;
-      /* border-right: 1px solid #eee; */
-    }
   }
 
   aside {
@@ -32,14 +27,13 @@ export const Content = styled.div`
 
 export const Profile = styled.div`
   display: flex;
+  align-items: center;
   margin-left: 20px;
   padding-left: 20px;
-  /* border-left: 1px solid #eee; */
 
   div {
     text-align: right;
     margin-right: 25px;
-    height: 42px;
     align-content: center;
 
     strong {
@@ -49,7 +43,7 @@ export const Profile = styled.div`
 
     a {
       display: block;
-      margin-top: 2px;
+      margin-top: 4px;
       font-size: 12px;
       color: #999;
     }
