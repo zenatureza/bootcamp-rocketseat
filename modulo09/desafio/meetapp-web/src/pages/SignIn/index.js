@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 
 import logo from '~/assets/logo.svg';
 
+import { signInRequest } from '~/store/modules/auth/actions';
+
 const schema = Yup.object().shape({
   email: Yup.string()
     .email('Insira um e-mail válido!')
@@ -14,19 +16,19 @@ const schema = Yup.object().shape({
 });
 
 export default function SignIn() {
-  // const dispatch = useDispatch();
-  // const loading = useSelector(state => state.auth.loading);
-  const loading = false;
+  const dispatch = useDispatch();
+  const loading = useSelector(state => state.auth.loading);
+  // const loading = false;
 
   function handleSubmit(data) {
     console.tron.log(data);
     const { email, password } = data;
-    // dispatch(signInRequest(email, password));
+    dispatch(signInRequest(email, password));
   }
 
   return (
     <>
-      <img src={logo} alt="GoBarber" />
+      <img src={logo} alt="MeetApp" />
 
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name="email" type="email" placeholder="Seu e-mail" />

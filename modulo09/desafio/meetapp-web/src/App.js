@@ -13,26 +13,21 @@ import history from './services/history';
  this is needed to persist data, like user login, so after f5 it keeps the
  user logged
 */
-// import { store, persistor } from './store';
+import { store, persistor } from './store';
 
 import GlobalStyle from './styles/global';
 
 function App() {
   return (
-    // <Provider store={store}>
-    //   <PersistGate persistor={persistor}>
-    //     <Router history={history}>
-    //       <Routes />
-    //       <GlobalStyle />
-    //       <ToastContainer autoClose={3000} />
-    //     </Router>
-    //   </PersistGate>
-    // </Provider>
-    <Router history={history}>
-      <Routes />
-      <GlobalStyle />
-      <ToastContainer autoClose={3000} />
-    </Router>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Router history={history}>
+          <Routes />
+          <GlobalStyle />
+          <ToastContainer autoClose={3000} />
+        </Router>
+      </PersistGate>
+    </Provider>
   );
 }
 
