@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import { useDispatch, useSelector } from 'react-redux';
-import ReactDatePicker from 'react-datepicker';
+import { MdAddCircleOutline } from 'react-icons/md';
 
-import { Container } from './styles';
+import { Container, SubmitButton } from './styles';
+import DateTimePicker from '~/components/DateTimePicker';
+import MeetupBannerInput from './MeetupBannerInput';
 
 export default function NewEdit() {
-  const profile = useSelector(state => state.user.profile);
+  const [meetup, setMeetup] = useState({});
   // const dispatch = useDispatch();
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -16,15 +18,23 @@ export default function NewEdit() {
 
   return (
     <Container>
-      <Form initialData={profile} onSubmit={handleSubmit}>
+      <Form initialData={meetup} onSubmit={handleSubmit}>
+        <MeetupBannerInput name="banner" placeholder="" />
+
         <Input name="name" placeholder="Título do Meetup" />
         <Input multiline name="description" placeholder="Descrição completa" />
-        <ReactDatePicker
+        <DateTimePicker
           // name={meetupDate}
-          selected={currentDate}
-          onChange={date => setCurrentDate(date)}
-          // ref={ref}
+          // selected={currentDate}
+          // onChange={date => setCurrentDate(date)}
+          name="meetupDate"
+          placeholder="Data do Meetup"
+        // ref={ref}
         />
+        <Input name="address" placeholder="Localização" />
+        <SubmitButton type="submit" onClick={handleSubmit}>
+          <MdAddCircleOutline /> Salvar Meetup
+        </SubmitButton>
       </Form>
     </Container>
   );
