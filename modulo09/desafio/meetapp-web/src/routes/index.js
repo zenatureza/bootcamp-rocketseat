@@ -8,7 +8,7 @@ import SignUp from '../pages/SignUp';
 
 import Dashboard from '../pages/Dashboard';
 import NewEdit from '../pages/NewEdit';
-// import Profile from '../pages/Profile';
+import Profile from '../pages/Profile';
 
 export default function Routes() {
   return (
@@ -17,6 +17,7 @@ export default function Routes() {
       <Route path="/register" component={SignUp} />
       <Route path="/dashboard" component={Dashboard} isPrivate />
       <Route path="/newedit" component={NewEdit} isPrivate />
+      <Route path="/profile" component={Profile} isPrivate />
     </Switch>
   );
 }

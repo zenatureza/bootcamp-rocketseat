@@ -22,11 +22,17 @@ export const Container = styled.div`
       margin: 0 0 10px;
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(255, 255, 255, 0.4);
       }
     }
 
-    /* TODO: Terminar estilização desse componente */
+    span {
+      color: #fb6f91;
+      align-self: flex-start;
+      margin: 0 0 10px;
+      font-weight: bold;
+    }
+
     textarea {
       background: rgba(0, 0, 0, 0.1);
       border: 0;
@@ -35,6 +41,13 @@ export const Container = styled.div`
       resize: none;
       width: 100%;
       margin: 0 0 10px;
+      color: #fff;
+      padding: 15px;
+      font: 14px 'Roboto', sans-serif;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
     }
   }
 `;
