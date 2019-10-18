@@ -13,14 +13,18 @@ export const TitleContainer = styled.div`
     color: #fff;
   }
 
+  /* TODO: Melhorar estilização aqui */
   button {
     border: 0;
     color: #fff;
     background: #d44059;
     border-radius: 4px;
-    align-content: center;
     font-weight: bold;
     font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 0 18px 0 18px;
 
     &:hover {
       background: ${darken(0.03, '#d44059')};
@@ -33,18 +37,37 @@ export const MeetupsListContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  input {
+  li {
     width: 900px;
     background: rgba(0, 0, 0, 0.1);
     border: 0;
     border-radius: 4px;
-    height: 44px;
+    height: 62px;
     padding: 0 15px;
-    color: #fff;
     margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     &::placeholder {
       color: rgba(255, 255, 255, 0.4);
     }
+
+    strong {
+      color: #fff;
+    }
+
+    aside {
+      display: flex;
+      align-items: center;
+
+      strong {
+        color: #999;
+        font-size: 16px;
+        margin-right: 30px;
+      }
+    }
   }
 `;
+
+export const MeetupCard = styled.li``;
