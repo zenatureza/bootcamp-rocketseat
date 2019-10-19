@@ -13,16 +13,49 @@ import User from '../models/User';
 import File from '../models/File';
 
 class MeetupController {
-  // GET: /meetups?date=2019-07-01&page=2
+  // GET: /meetups/id(optional)/?date=2019-07-01&page=2
   async index(req, res) {
+    const { id } = req.params;
+    if (id) {
+      const { userId } = req;
+
+      // get meetup data
+      const meetup = await Meetup.findByPk(id, {
+        include: [
+          {
+            model: File,
+            as: 'banner',
+            attributes: ['id', 'path', 'url'],
+          },
+        ],
+        attributes: [
+          'id',
+          'title',
+          'date',
+          'address',
+          'description',
+          'user_id',
+          'banner_id',
+        ],
+      });
+
+      if (meetup.user_id !== userId) {
+        return res
+          .status(401)
+          .json('$ meetup data only available for organizers!');
+      }
+
+      return res.json(meetup);
+    }
+
     const { page = 1 } = req.query;
     const { date } = req.query;
     const where = date
       ? {
-          date: {
-            [Op.between]: [startOfDay(date, endOfDay(date))],
-          },
-        }
+        date: {
+          [Op.between]: [startOfDay(date, endOfDay(date))],
+        },
+      }
       : {};
 
     const meetups = await Meetup.findAll({

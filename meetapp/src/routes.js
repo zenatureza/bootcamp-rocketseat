@@ -33,7 +33,7 @@ routes.use(authMiddleware);
 
 routes.put('/users', UserController.update);
 
-routes.get('/meetups', MeetupController.index);
+routes.get('/meetups/:id?', MeetupController.index);
 routes.post(
   '/meetups',
   validationMiddleware.validateMeetup,
