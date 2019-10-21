@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const TitleContainer = styled.div`
   margin: 50px auto;
@@ -32,5 +33,9 @@ export const TitleButton = styled.button`
 
   svg {
     padding-right: 10px;
+  }
+
+  &:hover {
+    background: ${darken(0.03, '#d44059')};
   }
 `;

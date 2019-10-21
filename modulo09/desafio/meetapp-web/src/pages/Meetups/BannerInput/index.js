@@ -6,13 +6,22 @@ import api from '~/services/api';
 
 import { Container } from './styles';
 
-export default function MeetupBannerInput() {
+export default function BannerInput() {
   const { defaultValue, registerField } = useField('banner');
 
   const [file, setFile] = useState(defaultValue && defaultValue.id);
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
+  const { error } = useField('banner_id');
 
   const ref = useRef();
+
+  useEffect(() => {
+    if (defaultValue) {
+      setFile(defaultValue.id);
+      setPreview(defaultValue.url);
+    }
+  }, [defaultValue]);
+
   useEffect(() => {
     if (ref.current) {
       registerField({
@@ -21,18 +30,15 @@ export default function MeetupBannerInput() {
         path: 'dataset.file',
       });
     }
-  }, [registerField]);
+  }, [ref.current]);
 
   async function handleChange(e) {
     const data = new FormData();
 
     data.append('file', e.target.files[0]);
 
-    console.tron.log('> calling api');
     const response = await api.post('files', data);
-
     const { id, url } = response.data;
-    console.tron.log(response.data);
 
     setFile(id);
     setPreview(url);
@@ -44,18 +50,21 @@ export default function MeetupBannerInput() {
         {preview ? (
           <img src={preview} alt="" />
         ) : (
-          <div>
-            <MdCameraAlt size={50} color="999" />
-            <strong>Selecionar imagem</strong>
-          </div>
-        )}
+            <div>
+              <MdCameraAlt size={50} color="999" />
+              <strong>Selecionar imagem</strong>
+            </div>
+          )}
+
         <input
           type="file"
           id="banner"
           accept="image/*"
           data-file={file}
           onChange={handleChange}
+          ref={ref}
         />
+        {error && <span>{error}</span>}
       </label>
     </Container>
   );

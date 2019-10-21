@@ -52,10 +52,10 @@ class MeetupController {
     const { date } = req.query;
     const where = date
       ? {
-        date: {
-          [Op.between]: [startOfDay(date, endOfDay(date))],
-        },
-      }
+          date: {
+            [Op.between]: [startOfDay(date, endOfDay(date))],
+          },
+        }
       : {};
 
     const meetups = await Meetup.findAll({

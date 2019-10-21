@@ -33,8 +33,6 @@ export const Content = styled.div`
       }
     }
 
-    /* TODO: span */
-
     button {
       margin: 5px 0 0;
       height: 44px;

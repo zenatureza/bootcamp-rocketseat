@@ -133,10 +133,10 @@ class Validation {
   async validateMeetup(req, res, next) {
     const schema = Yup.object().shape({
       title: Yup.string()
-        .min(6)
+        // .min(6)
         .required(),
       description: Yup.string()
-        .min(10)
+        // .min(10)
         .required(),
       address: Yup.string()
         .min(10)
