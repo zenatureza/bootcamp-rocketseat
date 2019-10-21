@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
+import colors from '~/styles/colors';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -19,19 +20,12 @@ export const Container = styled.div`
       border-radius: 4px;
       height: 44px;
       padding-left: 15px;
-      color: #fff;
+      color: ${colors.textColor};
       margin: 0 0 10px;
 
       &::placeholder {
         color: rgba(255, 255, 255, 0.4);
       }
-    }
-
-    span {
-      color: #fb6f91;
-      align-self: flex-start;
-      margin: 0 0 10px;
-      font-weight: bold;
     }
 
     textarea {
@@ -54,8 +48,8 @@ export const SubmitButton = styled.button.attrs(props => ({
   type: 'submit',
 }))`
   border: 0;
-  color: #fff;
-  background: #d44059;
+  color: ${colors.textColor};
+  background: ${colors.btnPrimaryColor};
   width: 180px;
   height: 42px;
   border-radius: 4px;
@@ -75,6 +69,6 @@ export const SubmitButton = styled.button.attrs(props => ({
   }
 
   &:hover {
-    background: ${darken(0.03, '#d44059')};
+    background: ${darken(0.03, colors.btnPrimaryColor)};
   }
 `;

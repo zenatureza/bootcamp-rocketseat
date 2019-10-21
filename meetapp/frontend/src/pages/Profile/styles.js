@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-
 import { darken } from 'polished';
+import colors from '~/styles/colors';
 
 export const Container = styled.div`
   max-width: 900px;
@@ -17,7 +17,7 @@ export const Container = styled.div`
       border-radius: 4px;
       height: 44px;
       padding: 0 15px;
-      color: #fff;
+      color: ${colors.textColor};
       margin: 0 0 10px;
 
       &::placeholder {
@@ -36,8 +36,8 @@ export const Container = styled.div`
 
 export const SubmitButton = styled.button`
   border: 0;
-  color: #fff;
-  background: #d44059;
+  color: ${colors.textColor};
+  background: ${colors.btnPrimaryColor};
   width: 162px;
   height: 42px;
   border-radius: 4px;
@@ -51,6 +51,6 @@ export const SubmitButton = styled.button`
   font-size: 16px;
 
   &:hover {
-    background: ${darken(0.03, '#d44059')};
+    background: ${darken(0.03, colors.btnPrimaryColor)};
   }
 `;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-
 import 'react-datepicker/dist/react-datepicker.css';
+
+import colors from '~/styles/colors';
 
 export const Container = styled.div`
   max-width: 900px;
@@ -18,7 +19,7 @@ export const Container = styled.div`
       border-radius: 4px;
       height: 44px;
       padding: 0 15px;
-      color: #fff;
+      color: ${colors.textColor};
       margin: 0 0 10px;
 
       &::placeholder {
@@ -41,7 +42,7 @@ export const Container = styled.div`
       resize: none;
       width: 100%;
       margin: 0 0 10px;
-      color: #fff;
+      color: ${colors.textColor};
       padding: 15px;
       font: 14px 'Roboto', sans-serif;
 
@@ -54,16 +55,11 @@ export const Container = styled.div`
 
 export const SubmitButton = styled.button`
   border: 0;
-  color: #fff;
-  background: #d44059;
+  color: ${colors.textColor};
+  background: ${colors.btnPrimaryColor};
   width: 180px;
   height: 42px;
   border-radius: 4px;
   justify-content: flex-end;
   margin-left: auto;
 `;
-
-// TODO: Ajustar largura do datetime picker
-// export const DatePicker = styled(ReactDatePicker)`
-//   width: 900px;
-// `;

@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import { MdAddCircleOutline } from 'react-icons/md';
-import { parseISO } from 'date-fns';
 
 import BannerInput from '../BannerInput';
 import DateTimePicker from '~/components/DateTimePicker';

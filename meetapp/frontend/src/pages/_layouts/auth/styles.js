@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
+import colors from '~/styles/colors';
 
 export const Wrapper = styled.div`
   height: 100%;
-  background-image: linear-gradient(180deg, #22202c 0%, #402845 100%);
+  background-image: linear-gradient(
+    180deg,
+    ${colors.linearBgFirstColor},
+    ${colors.linearBgSecondColor});
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +29,7 @@ export const Content = styled.div`
       border-radius: 4px;
       height: 44px;
       padding: 0 15px;
-      color: #fff;
+      color: ${colors.textColor};
       margin: 0 0 10px;
 
       &::placeholder {
@@ -36,21 +40,21 @@ export const Content = styled.div`
     button {
       margin: 5px 0 0;
       height: 44px;
-      background: #f94d6a;
+      background: ${colors.btnPrimaryColor};
       font-weight: bold;
-      color: #fff;
+      color: ${colors.textColor};
       border: 0;
       border-radius: 4px;
       font-size: 16px;
       transition: background 0.2s;
 
       &:hover {
-        background: ${darken(0.03, '#f94d6a')};
+        background: ${darken(0.03, colors.btnPrimaryColor)};
       }
     }
 
     a {
-      color: #fff;
+      color: ${colors.textColor};
       margin-top: 15px;
       font-size: 16px;
       opacity: 0.8;

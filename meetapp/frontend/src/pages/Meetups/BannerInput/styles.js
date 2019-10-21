@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import colors from '~/styles/colors';
 
 export const Container = styled.div`
   align-self: center;
@@ -30,7 +31,7 @@ export const Container = styled.div`
         margin-top: 4px;
         font-size: 18px;
         font-weight: bold;
-        color: #999;
+        color: ${colors.placeholderColor};
       }
     }
   }

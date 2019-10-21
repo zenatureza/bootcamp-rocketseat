@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
+import colors from '~/styles/colors';
 
 export const Container = styled.div`
-  background: #000;
+  background: ${colors.headerBgColor};
   padding: 0 30px;
   top: 0;
 `;
@@ -39,7 +40,7 @@ export const Profile = styled.div`
 
     strong {
       display: block;
-      color: #fff;
+      color: ${colors.textColor};
     }
 
     a {
@@ -52,14 +53,14 @@ export const Profile = styled.div`
 
   button {
     border: 0;
-    color: #fff;
-    background: #d44059;
+    color: ${colors.textColor};
+    background: ${colors.btnPrimaryColor};;
     width: 71px;
     height: 42px;
     border-radius: 4px;
 
     &:hover {
-      background: ${darken(0.03, '#d44059')};
+      background: ${darken(0.03, colors.btnPrimaryColor)};
     }
   }
 `;

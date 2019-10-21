@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-
 import { darken } from 'polished';
+
+import colors from '~/styles/colors';
 
 export const TitleContainer = styled.div`
   margin: 50px auto;
@@ -10,14 +11,14 @@ export const TitleContainer = styled.div`
 
   h1 {
     font-size: 32px;
-    color: #fff;
+    color: ${colors.textColor};
   }
 
   /* TODO: Melhorar estilização aqui */
   button {
     border: 0;
-    color: #fff;
-    background: #d44059;
+    color: ${colors.textColor};
+    background: ${colors.btnPrimaryColor};
     border-radius: 4px;
     font-weight: bold;
     font-size: 16px;
@@ -27,7 +28,7 @@ export const TitleContainer = styled.div`
     padding: 0 18px 0 18px;
 
     &:hover {
-      background: ${darken(0.03, '#d44059')};
+      background: ${darken(0.03, colors.btnPrimaryColor)};
     }
   }
 `;
@@ -54,7 +55,7 @@ export const MeetupsListContainer = styled.div`
     }
 
     strong {
-      color: #fff;
+      color: ${colors.textColor};
     }
 
     aside {
@@ -62,7 +63,7 @@ export const MeetupsListContainer = styled.div`
       align-items: center;
 
       strong {
-        color: #999;
+        color: ${colors.placeholderColor};
         font-size: 16px;
         margin-right: 30px;
       }

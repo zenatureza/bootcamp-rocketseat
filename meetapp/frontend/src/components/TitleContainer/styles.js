@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
+import colors from '~/styles/colors';
 
 export const TitleContainer = styled.div`
   margin: 50px auto;
@@ -19,7 +20,7 @@ export const TitleContainer = styled.div`
 `;
 
 export const TitleButton = styled.button`
-  background: ${props => (props.editbtn ? '#4DBAF9' : '#d44059')};
+  background: ${props => (props.editbtn ? colors.btnEditColor : colors.btnPrimaryColor)};
   color: #fff;
   border: 0;
   border-radius: 4px;
@@ -36,6 +37,7 @@ export const TitleButton = styled.button`
   }
 
   &:hover {
-    background: ${darken(0.03, '#d44059')};
+    background: ${props => (props.editbtn ? darken(0.03, colors.btnEditColor) :
+    darken(0.03, colors.btnPrimaryColor))}
   }
 `;

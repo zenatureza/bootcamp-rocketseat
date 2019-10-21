@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import colors from '~/styles/colors';
 
 export const MeetupInfoContainer = styled.div`
   margin-bottom: 10px;
@@ -28,13 +29,13 @@ export const MeetupDescription = styled.strong`
 
   margin-top: 25px;
   font-size: 16px;
-  color: #ffffff;
+  color: ${colors.textColor};
   text-align: left;
   display: flex;
 `;
 
 export const MeetupDate = styled.strong`
-  color: #999;
+  color: ${colors.placeholderColor};
   display: flex;
   align-items: center;
   margin-right: 25px;
@@ -46,7 +47,7 @@ export const MeetupDate = styled.strong`
 `;
 
 export const MeetupAddress = styled.strong`
-  color: #999;
+  color: ${colors.placeholderColor};
   display: flex;
   align-items: center;
 
