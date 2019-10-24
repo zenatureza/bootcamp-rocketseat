@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { RectButton } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.SafeAreaView`
   flex: 1;
@@ -7,7 +7,7 @@ export const Container = styled.SafeAreaView`
 
 export const HourList = styled.FlatList.attrs({
   numColumns: 2,
-  showVerticalScrollIndicator: false,
+  showsVerticalScrollIndicator: false,
 })`
   padding: 0 20px;
 `;
@@ -24,7 +24,7 @@ export const Hour = styled(RectButton)`
 `;
 
 export const Title = styled.Text`
+  color: #333;
   font-size: 14px;
   font-weight: bold;
-  color: #333;
 `;

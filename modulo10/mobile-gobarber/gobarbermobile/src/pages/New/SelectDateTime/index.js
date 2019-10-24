@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import api from '~/services/api';
+
 import Background from '~/components/Background';
 import DateInput from '~/components/DateInput';
 
 import { Container, HourList, Hour, Title } from './styles';
-
-import api from '~/services/api';
 
 export default function SelectDateTime({ navigation }) {
   const [date, setDate] = useState(new Date());
@@ -17,7 +17,7 @@ export default function SelectDateTime({ navigation }) {
 
   useEffect(() => {
     async function loadAvailable() {
-      const response = await api.get(`/providers/${provider.id}/available`, {
+      const response = await api.get(`providers/${provider.id}/available`, {
         params: {
           date: date.getTime(),
         },
@@ -29,7 +29,7 @@ export default function SelectDateTime({ navigation }) {
     loadAvailable();
   }, [date, provider.id]);
 
-  function handleSelectHour(value) {
+  function handleSelectHour(time) {
     navigation.navigate('Confirm', {
       provider,
       time,
@@ -40,14 +40,14 @@ export default function SelectDateTime({ navigation }) {
     <Background>
       <Container>
         <DateInput date={date} onChange={setDate} />
-
         <HourList
           data={hours}
+          extraData={date}
           keyExtractor={item => item.time}
           renderItem={({ item }) => (
             <Hour
               onPress={() => handleSelectHour(item.value)}
-              enabled={time.available}
+              enabled={item.available}
             >
               <Title>{item.time}</Title>
             </Hour>
@@ -66,7 +66,7 @@ SelectDateTime.navigationOptions = ({ navigation }) => ({
         navigation.goBack();
       }}
     >
-      <Icon name="chevron-left" size={20} color="#FFF" />
+      <Icon name="chevron-left" size={20} color="#fff" />
     </TouchableOpacity>
   ),
 });
