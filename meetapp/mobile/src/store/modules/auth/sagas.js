@@ -1,8 +1,7 @@
 import { all, takeLatest, call, put } from 'redux-saga/effects';
-// import { toast } from 'react-toastify';
+import { Alert } from 'react-native';
 
 import api from '~/services/api';
-// import history from '~/services/history';
 
 import { signInSuccess, signInFailure } from './actions';
 
@@ -24,7 +23,7 @@ export function* signIn({ payload }) {
     // history.push('/dashboard');
   } catch (err) {
     console.tron.log('$ erro de autenticação');
-    // toast.error('Falha na autenticação, verifique seus dados de login!');
+    Alert.alert('Falha na autenticação, verifique seus dados de login!');
     yield put(signInFailure());
   }
 }
@@ -40,8 +39,13 @@ export function* signUp({ payload }) {
     });
 
     // history.push('/');
+    Alert.alert('Sucesso!', 'Seu usuário foi cadastrado com sucesso!', [
+      {
+        text: 'OK',
+      },
+    ]);
   } catch (error) {
-    // toast.error('Falha no cadastro, verifique seus dados!');
+    Alert.alert('Falha no cadastro, verifique seus dados!');
 
     yield put(signInFailure());
   }
