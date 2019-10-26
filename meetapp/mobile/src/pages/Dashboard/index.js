@@ -20,7 +20,7 @@ import {
 import api from '~/services/api';
 import colors from '~/styles/colors';
 
-function Dashboard() {
+export default function Dashboard() {
   const [date, setDate] = useState(new Date());
   const [meetups, setMeetups] = useState([]);
 
@@ -92,5 +92,3 @@ Dashboard.navigationOptions = {
     <Icon name="format-list-bulleted" size={20} color={tintColor} />
   ),
 };
-
-export default withNavigationFocus(Dashboard);

@@ -11,31 +11,28 @@ import api from '~/services/api';
 import MeetupsList from '~/components/MeetupsList';
 import Meetup from '~/components/Meetup';
 
-function Subscriptions() {
-  const [subscriptions, setSubscriptions] = useState([]);
+function Subscriptions({ isFocused }) {
   const [meetups, setMeetups] = useState([]);
 
-  async function loadMeetupsSubscriptions() {
+  const loadMeetupsSubscriptions = async () => {
+    console.tron.log('loading data from api');
+
     const response = await api.get('/subscriptions');
 
     console.tron.log('subscriptions');
     console.tron.log(response.data);
 
-    if (response.data) {
-      setMeetups(response.data.map(subscription => subscription.Meetup));
-    }
+    setMeetups(response.data.map(subscription => subscription.Meetup));
+  };
 
-    setSubscriptions(response.data);
-    // else {
-    //   setMeetups([]);
-    //   setSubscriptions([]);
-    // }
-  }
-
+  // onComponentDidMount
   useEffect(() => {
-    loadMeetupsSubscriptions();
-  }, [meetups]);
+    if (isFocused) {
+      loadMeetupsSubscriptions();
+    }
+  }, [isFocused]);
 
+  // after unsubscription
   async function handleUnsubscription(meetupId) {
     await api.delete(`/meetups/${meetupId}/subscriptions`);
     loadMeetupsSubscriptions();

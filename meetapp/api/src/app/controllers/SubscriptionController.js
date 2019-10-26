@@ -62,6 +62,15 @@ class SubscriptionController {
       return res.json(400).json({ error: '$ this meetup already happened!' });
     }
 
+    const userSubscription = await Subscription.findOne({
+      where: { meetup_id, user_id },
+    });
+    if (userSubscription) {
+      return res
+        .status(400)
+        .json({ error: '$ youre already subscribed to this meetup!' });
+    }
+
     const subscribedSameTimeMeetup = await Subscription.findOne({
       where: { user_id },
       include: [
@@ -77,15 +86,6 @@ class SubscriptionController {
         error:
           '$ cannot subscribe to two meetups that happen at the same time!',
       });
-    }
-
-    const userSubscription = await Subscription.findOne({
-      where: { meetup_id, user_id },
-    });
-    if (userSubscription) {
-      return res
-        .status(400)
-        .json({ error: '$ youre already subscribed to this meetup!' });
     }
 
     const subscription = Subscription.create({
