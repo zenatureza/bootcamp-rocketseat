@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
+import File from '../models/File';
 
 import Queue from '../../lib/Queue';
 import SubscriptionMail from '../jobs/SubscriptionMail';
@@ -19,6 +20,18 @@ class SubscriptionController {
             date: { [Op.gt]: new Date() },
           },
           required: true,
+          include: [
+            {
+              model: User,
+              as: 'user',
+              attributes: ['name', 'email'],
+            },
+            {
+              model: File,
+              as: 'banner',
+              attributes: ['id', 'path', 'url'],
+            },
+          ],
         },
       ],
       order: [[Meetup, 'date']],
@@ -87,6 +100,23 @@ class SubscriptionController {
     });
 
     return res.json(subscription);
+  }
+
+  // DELETE: /meetups/:meetupId/subscriptions/
+  async delete(req, res) {
+    const user_id = req.userId;
+    const meetup_id = req.params.meetupId;
+
+    const subscription = await Subscription.findOne({
+      where: { user_id, meetup_id },
+    });
+
+    if (!subscription) {
+      return res.status(400).json('$ subscription not found!');
+    }
+
+    subscription.destroy();
+    return res.json({ msg: '> subscription undone!' });
   }
 }
 

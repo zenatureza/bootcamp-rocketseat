@@ -1,59 +1,87 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { format, subDays, addDays } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 import Background from '~/components/Background';
-// import Appointment from '~/components/Appointment';
+import Header from '~/components/Header';
+import Meetup from '~/components/Meetup';
+import MeetupsList from '~/components/MeetupsList';
 
-// import { Container, Title, List } from './styles';
+import {
+  DateContainer,
+  DateText,
+  // MeetupsList,
+  MdChevronLeft,
+  MdChevronRight,
+} from './styles';
 
 import api from '~/services/api';
+import colors from '~/styles/colors';
 
-function Dashboard({ isFocused }) {
-  const [appointments, setAppointments] = useState([]);
+function Dashboard() {
+  const [date, setDate] = useState(new Date());
+  const [meetups, setMeetups] = useState([]);
 
-  // async function loadAppointments() {
-  //   const response = await api.get('/appointments');
+  const dateFormatted = useMemo(
+    () => format(date, "d 'de' MMMM", { locale: pt }),
+    [date]
+  );
 
-  //   setAppointments(response.data);
-  // }
+  async function loadMeetups(date) {
+    const response = await api.get('/meetups', {
+      params: { date },
+    });
 
-  // // always calling api when isFocused
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     loadAppointments();
-  //   }
-  // }, [isFocused]);
+    console.tron.log(response.data);
 
-  // async function handleCancel(id) {
-  //   const response = await api.delete(`appointments/${id}`);
-  //   console.tron.log(response.data);
+    setMeetups(response.data);
+  }
 
-  //   setAppointments(
-  //     appointments.map(appointment =>
-  //       appointment.id === id
-  //         ? {
-  //             ...appointment,
-  //             canceled_at: response.date.canceled_at,
-  //           }
-  //         : appointment
-  //     )
-  //   );
-  // }
+  useEffect(() => {
+    loadMeetups(date);
+  }, [date]);
+
+  function handlePrevDay() {
+    setDate(subDays(date, 1));
+  }
+
+  function handleNextDay() {
+    setDate(addDays(date, 1));
+  }
+
+  async function handleSubscription(meetupId) {
+    await api.post(`/meetups/${meetupId}/subscriptions`);
+  }
 
   return (
     <Background>
-      {/* <Container>
-        <Title>Agendamentos</Title>
+      <Header />
 
-        <List
-          data={appointments}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <Appointment onCancel={() => handleCancel(item.id)} data={item} />
-          )}
-        />
-      </Container> */}
+      <DateContainer>
+        <MdChevronLeft onPress={handlePrevDay}>
+          <Icon name="chevron-left" color={colors.textColor} size={30} />
+        </MdChevronLeft>
+        <DateText>{dateFormatted}</DateText>
+        <MdChevronRight onPress={handleNextDay}>
+          <Icon name="chevron-right" color={colors.textColor} size={30} />
+        </MdChevronRight>
+      </DateContainer>
+
+      <MeetupsList
+        data={meetups}
+        keyExtractor={item => String(item.id)}
+        onEndReached={() => loadMeetups(date)}
+        onEndReachedThreshold={0.1}
+        renderItem={({ item }) => (
+          <Meetup
+            data={item}
+            buttonText="Realizar inscrição"
+            buttonFunction={handleSubscription}
+          />
+        )}
+      />
     </Background>
   );
 }

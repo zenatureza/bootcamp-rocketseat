@@ -7,9 +7,10 @@ import Background from '~/components/Background';
 import { updateProfileRequest } from '~/store/modules/user/actions';
 import { signOut } from '~/store/modules/auth/actions';
 
+import Header from '~/components/Header';
+
 import {
   Container,
-  Title,
   Form,
   FormInput,
   SubmitButton,
@@ -57,9 +58,8 @@ export default function Profile() {
 
   return (
     <Background>
+      <Header />
       <Container>
-        <Title>Meu perfil</Title>
-
         <Form>
           <FormInput
             icon="person-outline"

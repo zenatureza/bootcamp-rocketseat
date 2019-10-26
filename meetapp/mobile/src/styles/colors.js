@@ -8,4 +8,7 @@ export default {
   linearBgFirstColor: '#22202c',
   linearBgSecondColor: '#402845',
   bottomTabNavigatorBgColor: '#2b1a2f',
+  meetupCardTitleColor: '#000000',
+  meetupCardInfoColor: '#999999',
+  meetupCardButtonColor: '#F94D6A',
 };

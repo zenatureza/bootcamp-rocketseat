@@ -49,11 +49,11 @@ class MeetupController {
     }
 
     const { page = 1 } = req.query;
-    const { date } = req.query;
+    const date = parseISO(req.query.date);
     const where = date
       ? {
           date: {
-            [Op.between]: [startOfDay(date, endOfDay(date))],
+            [Op.between]: [startOfDay(date), endOfDay(date)],
           },
         }
       : {};
@@ -63,7 +63,7 @@ class MeetupController {
       order: ['date'],
       limit: 10,
       offset: page * 10 - 10,
-      attributes: ['title', 'user_id', 'address', 'date'],
+      attributes: ['id', 'title', 'user_id', 'address', 'date'],
       include: [
         {
           model: User,
