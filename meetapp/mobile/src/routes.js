@@ -31,6 +31,7 @@ export default (isSigned = false) =>
               inactiveTintColor: 'rgba(255, 255, 255, 0.6)',
               style: {
                 backgroundColor: colors.bottomTabNavigatorBgColor,
+                borderTopColor: colors.bottomTabNavigatorBgColor,
               },
             },
           }

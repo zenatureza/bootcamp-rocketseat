@@ -36,7 +36,7 @@ export default function SignIn({ navigation }) {
 
         <Form>
           <FormInput
-            icon="mail-outline"
+            // icon="mail-outline"
             keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
@@ -48,7 +48,7 @@ export default function SignIn({ navigation }) {
           />
 
           <FormInput
-            icon="lock-outline"
+            // icon="lock-outline"
             secureTextEntry
             placeholder="Sua senha secreta"
             ref={passwordRef}

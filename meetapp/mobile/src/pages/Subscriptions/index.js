@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { withNavigationFocus } from 'react-navigation';
+import { Alert } from 'react-native';
 
 import Background from '~/components/Background';
 import Header from '~/components/Header';
@@ -34,8 +35,15 @@ function Subscriptions({ isFocused }) {
 
   // after unsubscription
   async function handleUnsubscription(meetupId) {
-    await api.delete(`/meetups/${meetupId}/subscriptions`);
-    loadMeetupsSubscriptions();
+    try {
+      await api.delete(`/meetups/${meetupId}/subscriptions`);
+
+      Alert.alert('Desinscrição realizada com sucesso!');
+
+      loadMeetupsSubscriptions();
+    } catch (error) {
+      Alert.alert(error.response.data.user_message);
+    }
   }
 
   return (

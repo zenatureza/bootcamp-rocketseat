@@ -1,13 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Alert } from 'react-native';
 
 import Background from '~/components/Background';
+import Header from '~/components/Header';
 
 import { updateProfileRequest } from '~/store/modules/user/actions';
 import { signOut } from '~/store/modules/auth/actions';
-
-import Header from '~/components/Header';
+import { profileSchema } from '~/utils/validation';
 
 import {
   Container,
@@ -40,16 +41,33 @@ export default function Profile() {
     setConfirmPassword('');
   }, [profile]);
 
-  function handleSubmit() {
-    dispatch(
-      updateProfileRequest({
+  async function handleSubmit() {
+    try {
+      console.tron.log('validating profile schema');
+
+      await profileSchema.validate({
         name,
         email,
         oldPassword,
         password,
         confirmPassword,
-      })
-    );
+      });
+
+      dispatch(
+        updateProfileRequest({
+          name,
+          email,
+          oldPassword,
+          password,
+          confirmPassword,
+        })
+      );
+    } catch ({ path, message }) {
+      console.tron.log('validation error');
+      console.tron.log(path);
+      console.tron.log(message);
+      Alert.alert(message);
+    }
   }
 
   function handleLogout() {
@@ -62,7 +80,7 @@ export default function Profile() {
       <Container>
         <Form>
           <FormInput
-            icon="person-outline"
+            // icon="person-outline"
             autoCorrect={false}
             autoCapitalize="none"
             placeholder="Nome completo"
@@ -73,8 +91,8 @@ export default function Profile() {
           />
 
           <FormInput
+            // icon="mail-outline"
             ref={emailRef}
-            icon="mail-outline"
             keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
@@ -88,8 +106,8 @@ export default function Profile() {
           <Separator />
 
           <FormInput
+            // icon="lock-outline"
             ref={oldPasswordRef}
-            icon="lock-outline"
             secureTextEntry
             placeholder="Senha atual"
             returnKeyType="next"
@@ -99,8 +117,8 @@ export default function Profile() {
           />
 
           <FormInput
+            // icon="lock-outline"
             ref={passwordRef}
-            icon="lock-outline"
             secureTextEntry
             placeholder="Nova senha"
             returnKeyType="next"
@@ -110,8 +128,8 @@ export default function Profile() {
           />
 
           <FormInput
+            // icon="lock-outline"
             ref={confirmPasswordRef}
-            icon="lock-outline"
             secureTextEntry
             placeholder="Confirmação de senha"
             returnKeyType="send"

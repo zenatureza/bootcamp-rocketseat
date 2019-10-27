@@ -49,26 +49,34 @@ class SubscriptionController {
       include: [{ model: User, as: 'user' }],
     });
     if (!meetup) {
-      return res.status(400).json({ error: '$ meetup does not exists!' });
+      return res.status(400).json({
+        error: '$ meetup does not exists!',
+        user_message: 'O meetup não existe!',
+      });
     }
 
     if (meetup.user_id === user_id) {
-      return res
-        .status(400)
-        .json({ error: '$ you cannot subscribe to your own meetups!' });
+      return res.status(400).json({
+        error: '$ you cannot subscribe to your own meetups!',
+        user_message: 'Você não pode se inscrever nos meetups que organiza!',
+      });
     }
 
     if (meetup.alreadyHappened) {
-      return res.json(400).json({ error: '$ this meetup already happened!' });
+      return res.json(400).json({
+        error: '$ this meetup already happened!',
+        user_message: 'Este meetup já aconteceu!',
+      });
     }
 
     const userSubscription = await Subscription.findOne({
       where: { meetup_id, user_id },
     });
     if (userSubscription) {
-      return res
-        .status(400)
-        .json({ error: '$ youre already subscribed to this meetup!' });
+      return res.status(400).json({
+        error: '$ youre already subscribed to this meetup!',
+        user_message: 'Você já está inscrito neste meetup!',
+      });
     }
 
     const subscribedSameTimeMeetup = await Subscription.findOne({
@@ -85,6 +93,8 @@ class SubscriptionController {
       return res.status(400).json({
         error:
           '$ cannot subscribe to two meetups that happen at the same time!',
+        user_message:
+          'Você não pode se inscrever em dois meetups que acontecem ao mesmo tempo!',
       });
     }
 

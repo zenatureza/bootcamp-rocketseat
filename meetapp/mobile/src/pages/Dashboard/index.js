@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { withNavigationFocus } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { format, subDays, addDays } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import { Alert } from 'react-native';
 
 import Background from '~/components/Background';
 import Header from '~/components/Header';
@@ -12,7 +12,6 @@ import MeetupsList from '~/components/MeetupsList';
 import {
   DateContainer,
   DateText,
-  // MeetupsList,
   MdChevronLeft,
   MdChevronRight,
 } from './styles';
@@ -52,7 +51,15 @@ export default function Dashboard() {
   }
 
   async function handleSubscription(meetupId) {
-    await api.post(`/meetups/${meetupId}/subscriptions`);
+    try {
+      await api.post(`/meetups/${meetupId}/subscriptions`);
+      Alert.alert('Inscrição no meetup realizada com sucesso!');
+    } catch (error) {
+      console.tron.log('handleSubscription');
+      console.tron.log(error.response);
+
+      Alert.alert(error.response.data.user_message);
+    }
   }
 
   return (

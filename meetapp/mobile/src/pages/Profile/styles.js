@@ -27,7 +27,6 @@ export const Form = styled.ScrollView.attrs({
   contentContainerStyle: { padding: 30 },
 })`
   align-self: stretch;
-  margin-top: 50px;
 `;
 
 export const FormInput = styled(Input)`
@@ -36,6 +35,7 @@ export const FormInput = styled(Input)`
 
 export const SubmitButton = styled(Button)`
   margin-top: 5px;
+  background: ${colors.btnSaveProfileColor};
 `;
 
 export const LogoutButton = styled(Button)`
