@@ -45,23 +45,44 @@ export default function Profile() {
     try {
       console.tron.log('validating profile schema');
 
-      await profileSchema.validate({
+      const reqBody = {
         name,
         email,
         oldPassword,
         password,
         confirmPassword,
-      });
+      };
 
-      dispatch(
-        updateProfileRequest({
-          name,
-          email,
-          oldPassword,
-          password,
-          confirmPassword,
-        })
-      );
+      console.tron.log(reqBody);
+
+      const validateResult = await profileSchema.validate(reqBody, {
+        abortEarly: false,
+      });
+      console.tron.log('validate result');
+      console.tron.log(validateResult);
+
+      if (password && confirmPassword && !oldPassword) {
+        Alert.alert(
+          'Atenção',
+          'Gostaria de alterar a senha? Para isso é necessário informar a senha atual. Caso contrário, apenas seu nome e email serão atualizados!',
+          [
+            {
+              text: 'Não',
+              onPress: () => {
+                dispatch(updateProfileRequest(reqBody));
+              },
+            },
+            {
+              text: 'Sim',
+              onPress: () => {
+                console.tron.log('waiting current password');
+              },
+            },
+          ]
+        );
+      } else {
+        dispatch(updateProfileRequest(reqBody));
+      }
     } catch ({ path, message }) {
       console.tron.log('validation error');
       console.tron.log(path);
@@ -71,7 +92,20 @@ export default function Profile() {
   }
 
   function handleLogout() {
-    dispatch(signOut());
+    Alert.alert('Atenção', 'Tem certeza que quer sair do aplicativo?', [
+      {
+        text: 'Não',
+        onPress: () => {
+          console.tron.log('waiting current password');
+        },
+      },
+      {
+        text: 'Sim',
+        onPress: () => {
+          dispatch(signOut());
+        },
+      },
+    ]);
   }
 
   return (

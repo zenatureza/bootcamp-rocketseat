@@ -18,7 +18,6 @@ class UserController {
   // PUT: /users (logged user)
   async update(req, res) {
     const { email, oldPassword } = req.body;
-
     const user = await User.findByPk(req.userId);
     if (email && email !== user.email) {
       const userExists = await user.findOne({ where: { email } });

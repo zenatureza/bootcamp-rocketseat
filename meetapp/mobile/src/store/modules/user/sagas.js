@@ -14,9 +14,13 @@ export function* updateProfile({ payload }) {
       ...(rest.oldPassword ? rest : {}),
     };
 
+    console.tron.log('&&&& newprofile');
+    console.tron.log(profile);
+
     const response = yield call(api.put, 'users', profile);
 
-    Alert.alert('Perfil atualizado com sucesso!');
+    Alert.alert(response.data.user_message);
+
     yield put(updateProfileSuccess(response.data));
   } catch (error) {
     Alert.alert(error.response.data.user_message);

@@ -31,7 +31,11 @@ routes.post(
 // only logged users
 routes.use(authMiddleware);
 
-routes.put('/users', UserController.update);
+routes.put(
+  '/users',
+  validationMiddleware.validateUserUpdate,
+  UserController.update
+);
 
 routes.get('/meetups/:id?', MeetupController.index);
 routes.post(
