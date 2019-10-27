@@ -25,7 +25,6 @@ export const Title = styled.Text`
 `;
 
 export const CardButton = styled(RectButton)`
-  /* background: ${colors.meetupCardButtonColor}; */
   background: ${props => props.bgColor};
   border: 0;
   border-radius: 4px;

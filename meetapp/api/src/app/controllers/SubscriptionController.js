@@ -13,6 +13,7 @@ class SubscriptionController {
   async index(req, res) {
     const subscriptions = await Subscription.findAll({
       where: { user_id: req.userId },
+      attributes: ['id'],
       include: [
         {
           model: Meetup,
@@ -20,6 +21,7 @@ class SubscriptionController {
             date: { [Op.gt]: new Date() },
           },
           required: true,
+          attributes: ['id', 'title', 'description', 'address', 'date'],
           include: [
             {
               model: User,
@@ -112,17 +114,21 @@ class SubscriptionController {
     return res.json(subscription);
   }
 
-  // DELETE: /meetups/:meetupId/subscriptions/
+  // DELETE: /meetups/:subscriptionId/subscriptions/
   async delete(req, res) {
-    const user_id = req.userId;
-    const meetup_id = req.params.meetupId;
+    // const user_id = req.userId;
+    const { subscriptionId } = req.params;
 
-    const subscription = await Subscription.findOne({
-      where: { user_id, meetup_id },
-    });
+    // const subscription = await Subscription.findOne({
+    //   where: { user_id, meetup_id },
+    // });
+    const subscription = await Subscription.findByPk(subscriptionId);
 
     if (!subscription) {
-      return res.status(400).json('$ subscription not found!');
+      return res.status(400).json({
+        error: '$ subscription not found!',
+        user_message: 'Inscrição não encontrada!',
+      });
     }
 
     subscription.destroy();

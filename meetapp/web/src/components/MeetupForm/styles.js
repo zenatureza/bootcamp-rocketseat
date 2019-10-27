@@ -28,6 +28,11 @@ export const Container = styled.div`
       }
     }
 
+    span {
+      color: ${colors.btnPrimaryColor};
+      font-weight: bold;
+    }
+
     textarea {
       background: rgba(0, 0, 0, 0.2);
       border: 0;

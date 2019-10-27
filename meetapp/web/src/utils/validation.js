@@ -5,7 +5,7 @@ export const meetupSchema = Yup.object().shape({
   title: Yup.string().required('Insira um título para o meetup!'),
   description: Yup.string().required('Insira uma descrição para o meetup!'),
   date: Yup.date().required('Insira quando ocorrerá o meetup!'),
-  address: Yup.string().min(10).required('Insira o local onde ocorrerá o meetup!'),
+  address: Yup.string().min(10, 'O endereço deve conter pelo menos 10 caracteres!').required('Insira o local onde ocorrerá o meetup!'),
 });
 
 export const signInSchema = Yup.object().shape({

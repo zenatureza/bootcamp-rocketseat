@@ -31,7 +31,7 @@ export default function Edit({ match }) {
 
         setMeetup(meetupData);
       } catch (error) {
-        toast.error('Não foi possível obter os dados do meetup!');
+        toast.error(error.response.data.user_message);
       }
     }
 
@@ -49,7 +49,7 @@ export default function Edit({ match }) {
       history.push('/dashboard');
     } catch (error) {
       console.tron.log(error);
-      toast.error('Não foi possível alterar os dados do meetup!');
+      toast.error(error.response.data.user_message);
     }
   }
 

@@ -38,6 +38,7 @@ export default function DateTimePicker({ name, placeholder }) {
         locale={pt}
         minDate={new Date()}
         timeformat="HH:mm"
+        timeCaption="Horário"
         dateFormat="dd/MM/yyyy ' às ' HH:mm"
         selected={selectedDate}
         showTimeSelect

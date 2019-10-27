@@ -21,8 +21,7 @@ export default function Create() {
 
       history.push('/dashboard');
     } catch (error) {
-      console.tron.log(error);
-      toast.error('Não foi possível criar o meetup!');
+      toast.error(error.response.data.user_message);
     }
   }
 

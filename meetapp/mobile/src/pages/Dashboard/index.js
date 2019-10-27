@@ -2,12 +2,13 @@ import React, { useEffect, useState, useMemo } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { format, subDays, addDays } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import { Alert } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 
+import { withNavigationFocus } from 'react-navigation';
 import Background from '~/components/Background';
 import Header from '~/components/Header';
 import Meetup from '~/components/Meetup';
-import MeetupsList from '~/components/MeetupsList';
+import { Loading } from '~/components/Loading/styles';
 
 import {
   DateContainer,
@@ -19,35 +20,84 @@ import {
 import api from '~/services/api';
 import colors from '~/styles/colors';
 
-export default function Dashboard() {
+function Dashboard({ isFocused }) {
   const [date, setDate] = useState(new Date());
   const [meetups, setMeetups] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [paginationPage, setPaginationPage] = useState(1);
+  const [currentMeetupsCount, setCurrentMeetupsCount] = useState(null);
 
   const dateFormatted = useMemo(
     () => format(date, "d 'de' MMMM", { locale: pt }),
     [date]
   );
 
-  async function loadMeetups(date) {
-    const response = await api.get('/meetups', {
-      params: { date },
-    });
+  async function loadMeetups(currentPage = page) {
+    console.tron.log('entering loadMeetups');
+    console.tron.log(`page: ${currentPage}`);
+    if (loading || (currentMeetupsCount && page > currentMeetupsCount)) return;
 
-    console.tron.log(response.data);
+    setLoading(true);
 
-    setMeetups(response.data);
+    try {
+      const response = await api.get('meetups', {
+        params: { date, page: currentPage },
+      });
+
+      const numMeetupsReturned = response.data.meetups.length;
+      setCurrentMeetupsCount(numMeetupsReturned);
+
+      /* Se estiver dando refresh, preciso setar os meetups 
+      p/ apneas lista recém obtida */
+      setMeetups(
+        refreshing
+          ? [...response.data.meetups]
+          : [...meetups, ...response.data.meetups]
+      );
+      setPaginationPage(response.data.page);
+      setPage(currentPage);
+    } catch (error) {
+      Alert.alert(
+        error.response.data.user_message || 'Não foi possível obter os dados!'
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function refreshMeetups() {
+    console.tron.log('refreshing meetups');
+    setMeetups([]);
+    setRefreshing(true);
+    setPage(1);
+    await loadMeetups();
+    setRefreshing(false);
   }
 
   useEffect(() => {
-    loadMeetups(date);
-  }, [date]);
+    console.tron.log('using effect');
+    if (isFocused) {
+      // armazeno em qual página parou p/ n buscar os dados novamente
+      let currentPage = page;
+      if (meetups && meetups.length > 0) {
+        currentPage = page + 1;
+      }
+      loadMeetups(currentPage);
+    }
+  }, [isFocused, date]);
 
   function handlePrevDay() {
+    setPage(1);
     setDate(subDays(date, 1));
+    setMeetups([]);
   }
 
   function handleNextDay() {
+    setPage(1);
     setDate(addDays(date, 1));
+    setMeetups([]);
   }
 
   async function handleSubscription(meetupId) {
@@ -60,6 +110,17 @@ export default function Dashboard() {
 
       Alert.alert(error.response.data.user_message);
     }
+  }
+
+  async function handleLoadMore() {
+    console.tron.log(
+      `handleLoadMore: page: ${page} - paginationPage: ${paginationPage}`
+    );
+
+    if (page === paginationPage) return;
+
+    const currentPage = page + 1;
+    await loadMeetups(currentPage);
   }
 
   return (
@@ -76,11 +137,14 @@ export default function Dashboard() {
         </MdChevronRight>
       </DateContainer>
 
-      <MeetupsList
+      <FlatList
         data={meetups}
         keyExtractor={item => String(item.id)}
-        onEndReached={() => loadMeetups(date)}
+        onEndReached={() => handleLoadMore()}
         onEndReachedThreshold={0.1}
+        onRefresh={refreshMeetups}
+        refreshing={refreshing}
+        ListFooterComponent={loading && <Loading />}
         renderItem={({ item }) => (
           <Meetup
             data={item}
@@ -99,3 +163,5 @@ Dashboard.navigationOptions = {
     <Icon name="format-list-bulleted" size={20} color={tintColor} />
   ),
 };
+
+export default withNavigationFocus(Dashboard);

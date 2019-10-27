@@ -55,7 +55,7 @@ routes.get('/organizing', OrganizingController.index);
 routes.get('/subscriptions', SubscriptionController.index);
 routes.post('/meetups/:meetupId/subscriptions', SubscriptionController.store);
 routes.delete(
-  '/meetups/:meetupId/subscriptions',
+  '/meetups/:subscriptionId/subscriptions',
   SubscriptionController.delete
 );
 
